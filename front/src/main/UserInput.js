@@ -12,7 +12,7 @@ function UserInput(props) {
             <tr>
                 <td className="input-cell-l">X:</td>
                 <td id="x-cell">
-                    <ButtonPanel id="x-table" from={-4} to={4} onChange={fetcher.handleX} />
+                    <ButtonPanel id="x-table" from={-4} to={4} onChange={fetcher.handleX}/>
                 </td>
             </tr>
             <tr>
@@ -25,17 +25,17 @@ function UserInput(props) {
             <tr>
                 <td className="input-cell-l">R:</td>
                 <td id="r-cell">
-                    <ButtonPanel id="r-table" from={-4} to={4} onChange={fetcher.handleR} />
+                    <ButtonPanel id="r-table" from={-4} to={4} onChange={fetcher.handleR}/>
                 </td>
             </tr>
             <tr>
                 <td colSpan="3">
-                    <button id="submit-button" className="rounded" onClick={fetcher.handleSubmit} >Вычислить</button>
+                    <button id="submit-button" className="rounded" onClick={fetcher.handleSubmit}>Вычислить</button>
                 </td>
             </tr>
             <tr>
                 <td colSpan="3">
-                    <button id="clear-button" className="rounded" onClick={fetcher.handleClear} >Очистить</button>
+                    <button id="clear-button" className="rounded" onClick={fetcher.handleClear}>Очистить</button>
                 </td>
             </tr>
             </tbody>

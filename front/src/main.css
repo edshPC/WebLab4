@@ -123,3 +123,8 @@ button:active {
 #result-table .last-row-miss td {
     background-color: #653b3b;
 }
+
+.redirect {
+    font-size: 20px;
+    padding: 5px;
+}

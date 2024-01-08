@@ -1,12 +1,13 @@
 import {useState} from "react";
 import MainApp from "./MainApp";
+import {useLoaderData} from "react-router-dom";
 
 function MainAppFetcher() {
 
     const [x, setX] = useState();
     const [y, setY] = useState();
     const [r, setR] = useState();
-    const [results, setResults] = useState([]);
+    const [results, setResults] = useState(useLoaderData());
 
     function handleX(ev) {
         setX(+ev.target.value);
@@ -55,6 +56,10 @@ function MainAppFetcher() {
 
     return(<MainApp fetcher={{r, results, handleX, handleY, handleR, handleSubmit, handleClear, handleGraphClick}} />);
 
+}
+
+export function LoadResults() {
+    return [];
 }
 
 export default MainAppFetcher;

@@ -1,8 +1,7 @@
 import {Expression, GraphingCalculator, elt} from "desmos-react";
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
-function Graph(props) {
-    const fetcher = props.fetcher;
+function Graph({fetcher}) {
 
     const [calculator, setCalculator] = useState({valid: false});
     const calculatorRef = useCallback(calc => {
@@ -20,7 +19,10 @@ function Graph(props) {
         setCalculator(calculator);
     }, [calculator]);
 
-    if (calculator.valid) calculator.setBounds(Math.min(Math.max(Math.abs(fetcher.r * 2), 4), 6));
+    useEffect(() => {
+        if (calculator.valid && fetcher.r != null)
+            calculator.setBounds(Math.min(Math.max(Math.abs(fetcher.r * 2), 4), 6));
+    }, [calculator, fetcher.r]);
 
     function handleClick(ev) {
         if (!calculator.valid || calculator.wasMoved) return;
@@ -57,28 +59,38 @@ function Graph(props) {
             yAxisArrowMode={"POSITIVE"}
         >
             <Figure r={fetcher.r}/>
-            <Points points={fetcher.results}/>
+            <Points points={fetcher.results} r={fetcher.r}/>
         </GraphingCalculator>
     );
 }
 
-function Points(props) {
-    const colorHit = '#bb00bb';
-    const colorMiss = '#00bbbb';
-    const points = props.points;
+function Points({points, r}) {
+    const colorHit = '#c200c2';
+    const colorMiss = '#00c9c2';
+    const colorHitInactive = '#d292d2';
+    const colorMissInactive = '#82c4c3';
+    const colorPicker = {
+        true: {
+            true: colorHit,
+            false: colorMiss
+        },
+        false: {
+            true: colorHitInactive,
+            false: colorMissInactive
+        }
+    }
 
     const rendered = points.map((point, i) =>
         <Expression key={i} id={i} latex={`(${point.x}, ${point.y})`}
-                    color={point.result ? colorHit : colorMiss} lines={false}/>
+                    color={colorPicker[point.r === r][point.result]} lines={false}/>
     );
 
     return (<>{rendered}</>);
 }
 
 
-function Figure(props) {
+function Figure({r}) {
     const color = '#ff7000';
-    const r = props.r;
 
     return (<>
         <Expression id={'g1'} latex={`0<=y<=${r} \\{-${r}<=x<=0\\}`} color={color} lines={false}/>

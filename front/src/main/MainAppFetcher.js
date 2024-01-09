@@ -30,36 +30,47 @@ function MainAppFetcher() {
     }
 
     function handleClear(ev) {
-        setResults([]);
+        fetch('http://localhost:24770/WebLab4/api/clear')
+            .then(r => r.json())
+            .then(r => {
+                if(r) setResults([]);
+            }).catch(console.error);
     }
 
     async function checkHit(x, y) {
-        if(x === undefined) return alert("X value is undefined");
-        if(y === undefined || Number.isNaN(y)) return alert("Y value is undefined or incorrect");
-        if(r === undefined) return alert("R value is undefined");
+        if (x === undefined) return alert("X value is undefined");
+        if (y === undefined || Number.isNaN(y)) return alert("Y value is undefined or incorrect");
+        if (r === undefined) return alert("R value is undefined");
 
-        let res;
+        let res = {};
         try {
-            res = await fetch("");
-            res = await res.json();
+            let raw = await fetch('http://localhost:24770/WebLab4/api/check', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json;charset=utf-8'},
+                body: JSON.stringify({x, y, r})
+            });
+            res = await raw.json();
         } catch (e) {
             res.error = e;
         }
-
-        res = {
-            x, y, r, result: true, time: Date.now(), exectime: 1
-        };
 
         if ('error' in res) return console.error(`Error in getting result: ${res.error}`);
         setResults([...results, res]);
     }
 
-    return(<MainApp fetcher={{r, results, handleX, handleY, handleR, handleSubmit, handleClear, handleGraphClick}} />);
+    return (<MainApp fetcher={{r, results, handleX, handleY, handleR, handleSubmit, handleClear, handleGraphClick}}/>);
 
 }
 
-export function LoadResults() {
-    return [];
+export async function LoadResults() {
+    let res = [];
+
+    try {
+        let raw = await fetch('http://localhost:24770/WebLab4/api/results');
+        res = await raw.json();
+    } catch (e) {console.error(e)}
+
+    return res;
 }
 
 export default MainAppFetcher;

@@ -1,7 +1,6 @@
 import {useState} from "react";
 
-function UserInput(props) {
-    const fetcher = props.fetcher;
+function UserInput({fetcher}) {
 
     return (
         <table id="input-table">

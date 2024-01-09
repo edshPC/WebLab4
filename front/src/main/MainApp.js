@@ -3,8 +3,7 @@ import ResultTable from "./ResultTable";
 import Graph from "./Graph";
 import {Link} from "react-router-dom";
 
-function MainApp(props) {
-    const fetcher = props.fetcher;
+function MainApp({fetcher}) {
 
     return (
         <table id="main-table">

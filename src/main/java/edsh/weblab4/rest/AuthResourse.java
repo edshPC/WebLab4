@@ -51,7 +51,7 @@ public class AuthResourse {
         if(result.isSuccess()) response = Response.ok();
         else response = Response.status(Response.Status.BAD_REQUEST);
 
-        var cookie = new NewCookie("token", result.getToken());
+        var cookie = new NewCookie("token", result.getToken(), "/", null, null, -1, true);
         return response.cookie(cookie).entity(result).build();
     }
 

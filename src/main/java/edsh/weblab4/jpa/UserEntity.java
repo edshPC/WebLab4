@@ -11,8 +11,20 @@ public class UserEntity {
     private String login;
     private String password;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ResultEntity> results;
+
+    public UserEntity() {}
+
+    public UserEntity(String login) {
+        this.login = login;
+    }
+
+    public UserEntity(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
 
     public String getLogin() {
         return login;

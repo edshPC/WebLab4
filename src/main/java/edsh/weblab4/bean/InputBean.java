@@ -8,6 +8,8 @@ public class InputBean {
     private double y;
     private double r;
 
+    private String login;
+
     public double getX() {
         return x;
     }
@@ -30,5 +32,13 @@ public class InputBean {
 
     public void setR(double r) {
         this.r = r;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 }

@@ -8,6 +8,7 @@ public class AuthResultBean {
     private boolean success = false;
     private String login;
     private String error;
+    private Object data;
 
     @JsonbTransient
     private String token;
@@ -52,5 +53,13 @@ public class AuthResultBean {
 
     public void setError(String error) {
         this.error = error;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }

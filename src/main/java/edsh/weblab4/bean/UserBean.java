@@ -32,4 +32,12 @@ public class UserBean {
         this.token = token;
     }
 
+    @Override
+    public String toString() {
+        return "UserBean{" +
+               "login='" + login + '\'' +
+               ", password='" + password + '\'' +
+               ", token='" + token + '\'' +
+               '}';
+    }
 }

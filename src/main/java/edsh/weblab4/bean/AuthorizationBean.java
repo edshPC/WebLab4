@@ -21,8 +21,10 @@ public class AuthorizationBean {
     public AuthResultBean tryLogin(UserBean user) {
         var result = new AuthResultBean();
 
-        if(authorizatedUsers.containsKey(user.getToken()))
+        if(authorizatedUsers.containsKey(user.getToken())) {
+            result.setToken(user.getToken());
             return result.error("You are already logged in");
+        }
 
         UserEntity userEntity = entityManager.find(UserEntity.class, user.getLogin());
         if(userEntity == null) return result.error("This username aren't registred");
@@ -44,9 +46,7 @@ public class AuthorizationBean {
         UserEntity userEntity = entityManager.find(UserEntity.class, user.getLogin());
         if(userEntity != null) return result.error("This username is already registred");
 
-        userEntity = new UserEntity();
-        userEntity.setLogin(user.getLogin());
-        userEntity.setPassword(Util.encodeString(user.getPassword()));
+        userEntity = new UserEntity(user.getLogin(), Util.encodeString(user.getPassword()));
         entityManager.persist(userEntity);
 
         String token = UUID.randomUUID().toString();
@@ -59,11 +59,22 @@ public class AuthorizationBean {
 
     public AuthResultBean logout(UserBean user) {
         var result = new AuthResultBean();
-        String token = user.getToken();
 
-        if(authorizatedUsers.remove(token) == null)
+        if(authorizatedUsers.remove(user.getToken()) == null)
             return result.error("You aren't logged in");
 
+        return result.success();
+    }
+
+    public AuthResultBean checkAuthorization(String token) {
+        var result = new AuthResultBean();
+        String login = authorizatedUsers.get(token);
+        System.out.println(login + ": " + token);
+
+        if(login == null)
+            return result.error("You aren't logged in");
+
+        result.setLogin(login);
         return result.success();
     }
 

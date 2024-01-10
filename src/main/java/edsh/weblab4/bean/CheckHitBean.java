@@ -1,9 +1,8 @@
 package edsh.weblab4.bean;
 
+import edsh.weblab4.jpa.ResultEntity;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateful;
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
 import jakarta.json.bind.annotation.JsonbTransient;
 
 import java.time.ZoneId;
@@ -32,7 +31,7 @@ public class CheckHitBean {
         dateTime = ZonedDateTime.now(ZoneId.of("+00:00"));
         execTime = (double) (System.nanoTime() - startTime) / 1000;
 
-        resultsBean.newResult(this);
+        resultsBean.newResult(this, input.getLogin());
     }
 
     private static boolean checkHit(double x, double y, double r) {
@@ -49,6 +48,17 @@ public class CheckHitBean {
             if (y >= 0) return -x <= r && y <= r; // up left
             else return x * x + y * y <= r * r; // down left
         }
+    }
+
+    public ResultEntity asResultEntity() {
+        ResultEntity resultEntity = new ResultEntity();
+        resultEntity.setX(x);
+        resultEntity.setY(y);
+        resultEntity.setR(r);
+        resultEntity.setResult(result);
+        resultEntity.setDateTime(dateTime);
+        resultEntity.setExecTime(execTime);
+        return resultEntity;
     }
 
     public double getX() {

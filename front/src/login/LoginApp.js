@@ -1,9 +1,9 @@
-import {Link} from "react-router-dom";
+import LoginForm from "./LoginForm";
 
 function LoginApp(props) {
     return(
         <div className="container">
-            <Link to="main" className="box rounded redirect">Войти</Link>
+            <LoginForm />
         </div>
     );
 }

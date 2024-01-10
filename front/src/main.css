@@ -124,7 +124,9 @@ button:active {
     background-color: #653b3b;
 }
 
+
 .redirect {
     font-size: 16px;
-    padding: 5px;
+    padding: 2px 7px;
+    margin: 5px 0;
 }

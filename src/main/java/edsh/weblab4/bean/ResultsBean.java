@@ -23,8 +23,7 @@ public class ResultsBean {
         loadResults(login);
         ResultEntity result = checkHitBean.asResultEntity();
 
-        UserEntity userEntity = new UserEntity(login);
-        result.setOwner(userEntity);
+        result.setOwner(new UserEntity(login));
 
         results.get(login).add(checkHitBean);
         entityManager.persist(result);

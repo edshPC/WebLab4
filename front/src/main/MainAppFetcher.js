@@ -1,13 +1,19 @@
 import {useState} from "react";
 import MainApp from "./MainApp";
-import {useLoaderData} from "react-router-dom";
+import {Navigate, useLoaderData} from "react-router-dom";
+import {autoFetch} from "../Util";
 
 function MainAppFetcher() {
+    let [redirect, redirectTo] = useState();
+
+    const loaded = useLoaderData();
+    if(!loaded.success && !loaded.login) redirect = '/';
+    const login = loaded.login;
 
     const [x, setX] = useState();
     const [y, setY] = useState();
     const [r, setR] = useState();
-    const [results, setResults] = useState(useLoaderData());
+    const [results, setResults] = useState(loaded.data);
 
     function handleX(ev) {
         setX(+ev.target.value);
@@ -21,7 +27,7 @@ function MainAppFetcher() {
         setR(+ev.target.value);
     }
 
-    function handleSubmit(ev) {
+    function handleSubmit() {
         checkHit(x, y);
     }
 
@@ -29,12 +35,19 @@ function MainAppFetcher() {
         checkHit(+ev.x, +ev.y);
     }
 
-    function handleClear(ev) {
-        fetch('http://localhost:24770/WebLab4/api/clear')
-            .then(r => r.json())
-            .then(r => {
-                if(r) setResults([]);
-            }).catch(console.error);
+    function handleClear() {
+        autoFetch('http://localhost:24770/WebLab4/api/clear')
+            .then(res => {
+                if (res.success) setResults([]);
+                else if (!res.login) redirectTo('/');
+            });
+    }
+
+    function handleLogout() {
+        autoFetch('http://localhost:24770/WebLab4/api/auth/logout', 'POST')
+            .then(res => {
+                if (!res.login) redirectTo('/');
+            });
     }
 
     async function checkHit(x, y) {
@@ -42,35 +55,21 @@ function MainAppFetcher() {
         if (y === undefined || Number.isNaN(y)) return alert("Y value is undefined or incorrect");
         if (r === undefined) return alert("R value is undefined");
 
-        let res = {};
-        try {
-            let raw = await fetch('http://localhost:24770/WebLab4/api/check', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json;charset=utf-8'},
-                body: JSON.stringify({x, y, r})
-            });
-            res = await raw.json();
-        } catch (e) {
-            res.error = e;
-        }
+        let res = await autoFetch('http://localhost:24770/WebLab4/api/check',
+            'POST', {x, y, r});
 
-        if ('error' in res) return console.error(`Error in getting result: ${res.error}`);
-        setResults([...results, res]);
+        if (res.success) setResults([...results, res.data]);
+        else if (!res.login) redirectTo('/');
     }
 
-    return (<MainApp fetcher={{r, results, handleX, handleY, handleR, handleSubmit, handleClear, handleGraphClick}}/>);
+    if (redirect) return (<Navigate to={redirect} replace/>)
+
+    return (<MainApp fetcher={{r, results, handleX, handleY, handleR, handleSubmit, handleClear, handleGraphClick, handleLogout, login}}/>);
 
 }
 
 export async function LoadResults() {
-    let res = [];
-
-    try {
-        let raw = await fetch('http://localhost:24770/WebLab4/api/results');
-        res = await raw.json();
-    } catch (e) {console.error(e)}
-
-    return res;
+    return await autoFetch('http://localhost:24770/WebLab4/api/results');
 }
 
 export default MainAppFetcher;

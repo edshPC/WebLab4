@@ -1,7 +1,6 @@
 import UserInput from "./UserInput";
 import ResultTable from "./ResultTable";
 import Graph from "./Graph";
-import {Link} from "react-router-dom";
 
 function MainApp({fetcher}) {
 
@@ -27,7 +26,13 @@ function MainApp({fetcher}) {
             </tr>
             <tr>
                 <td>
-                    <Link to="/" className="box rounded redirect">Выйти</Link>
+                    <div className="container">
+                        <p>Logged as:</p>
+                        <p>{fetcher.login}</p>
+                    </div>
+                </td>
+                <td>
+                    <button className="box rounded redirect" onClick={fetcher.handleLogout}>Выйти</button>
                 </td>
             </tr>
             </tbody>

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 import './main.css';
 import MainAppFetcher, {LoadResults} from "./main/MainAppFetcher";
-import LoginApp from "./login/LoginApp";
+import LoginAppFetcher from "./login/LoginAppFetcher";
 import Header from "./Header";
 
 const router = createBrowserRouter([{
@@ -11,12 +11,16 @@ const router = createBrowserRouter([{
     element: <Header/>,
     children: [{
         index: true,
-        element: <LoginApp/>
+        element: <LoginAppFetcher/>
     },
         {
             path: "main",
             element: <MainAppFetcher/>,
             loader: LoadResults
+        },
+        {
+            path: "*",
+            element: <Navigate to="/" replace />
         }]
 }]);
 

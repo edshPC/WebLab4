@@ -20,9 +20,11 @@ public class AuthorizationBean {
 
     public AuthResultBean tryLogin(UserBean user) {
         var result = new AuthResultBean();
+        String token = user.getToken();
 
-        if(authorizatedUsers.containsKey(user.getToken())) {
-            result.setToken(user.getToken());
+        if(authorizatedUsers.containsKey(token)) {
+            result.setToken(token);
+            result.setLogin(authorizatedUsers.get(token));
             return result.error("You are already logged in");
         }
 
@@ -32,7 +34,7 @@ public class AuthorizationBean {
         if(!Util.stringHashEquals(user.getPassword(), userEntity.getPassword()))
             return result.error("Incorrect password");
 
-        String token = UUID.randomUUID().toString();
+        token = UUID.randomUUID().toString();
         result.setToken(token);
         result.setLogin(user.getLogin());
         authorizatedUsers.put(token, user.getLogin());
@@ -42,6 +44,13 @@ public class AuthorizationBean {
 
     public AuthResultBean tryRegister(UserBean user) {
         var result = new AuthResultBean();
+        String token = user.getToken();
+
+        if(authorizatedUsers.containsKey(token)) {
+            result.setToken(token);
+            result.setLogin(authorizatedUsers.get(token));
+            return result.error("You are already logged in");
+        }
 
         UserEntity userEntity = entityManager.find(UserEntity.class, user.getLogin());
         if(userEntity != null) return result.error("This username is already registred");
@@ -49,7 +58,7 @@ public class AuthorizationBean {
         userEntity = new UserEntity(user.getLogin(), Util.encodeString(user.getPassword()));
         entityManager.persist(userEntity);
 
-        String token = UUID.randomUUID().toString();
+        token = UUID.randomUUID().toString();
         result.setToken(token);
         result.setLogin(user.getLogin());
         authorizatedUsers.put(token, user.getLogin());

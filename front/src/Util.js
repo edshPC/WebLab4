@@ -1,7 +1,7 @@
-export async function autoFetch(url, method, body) {
+export async function autoFetch(url, method, body, disableAlert) {
     let res = {success: false};
     try {
-        let raw = await fetch(url, {
+        let raw = await fetch('/WebLab4/api/' + url, {
             method: method ? method : 'GET',
             headers: {'Content-Type': 'application/json;charset=utf-8'},
             credentials: 'include',
@@ -12,7 +12,7 @@ export async function autoFetch(url, method, body) {
         res.error = e;
     }
 
-    if (!res.success) {
+    if (!res.success && !disableAlert) {
         alert('Error: ' + res.error);
     }
     console.log(res);

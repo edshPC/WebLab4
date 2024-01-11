@@ -62,7 +62,7 @@ function MainAppFetcher() {
         else if (!res.login) redirectTo('/');
     }
 
-    if (redirect) return (<Navigate to={redirect} replace/>)
+    if (redirect) return (<Navigate to={`..${redirect}`} relative/>)
 
     return (<MainApp fetcher={{r, results, handleX, handleY, handleR, handleSubmit, handleClear, handleGraphClick, handleLogout, login}}/>);
 

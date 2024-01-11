@@ -1,5 +1,5 @@
 import LoginApp from "./LoginApp";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Navigate} from 'react-router-dom';
 import {autoFetch} from "../Util";
 
@@ -28,7 +28,7 @@ function LoginAppFetcher(props) {
             });
     }
 
-    if(redirect) return (<Navigate to={redirect} replace/>);
+    if(redirect) return (<Navigate to={`.${redirect}`} relative/>);
 
     return (<LoginApp fetcher={{loginChangeHandle, passwordChangeHandle, loginHandle, registerHandle}}/>);
 }

@@ -1,4 +1,3 @@
-
 export async function autoFetch(url, method, body) {
     let res = {success: false};
     try {
@@ -13,7 +12,7 @@ export async function autoFetch(url, method, body) {
         res.error = e;
     }
 
-    if(!res.success) {
+    if (!res.success) {
         alert('Error: ' + res.error);
     }
     console.log(res);

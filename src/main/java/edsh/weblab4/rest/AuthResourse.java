@@ -4,10 +4,10 @@ import edsh.weblab4.bean.AuthResultBean;
 import edsh.weblab4.bean.AuthorizationBean;
 import edsh.weblab4.bean.UserBean;
 import jakarta.ejb.EJB;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.NewCookie;
-import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.*;
 import jakarta.ws.rs.ext.Provider;
 
 @Provider
@@ -23,8 +23,8 @@ public class AuthResourse {
     @Path("/login")
     public Response login(UserBean user, @CookieParam("token") String token) {
         user.setToken(token);
-        var result = authorizationBean.tryLogin(user);
 
+        var result = authorizationBean.tryLogin(user);
         return makeResponse(result);
     }
 

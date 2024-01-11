@@ -1,7 +1,7 @@
 import {useState} from "react";
-import MainApp from "./MainApp";
 import {Navigate, useLoaderData} from "react-router-dom";
 import {autoFetch} from "../Util";
+import MainAppModed from "./MainAppModed";
 
 function MainAppFetcher(props) {
     let [redirect, redirectTo] = useState();
@@ -63,7 +63,7 @@ function MainAppFetcher(props) {
     }
 
     if (redirect) return (<Navigate to={`..${redirect}`} relative/>);
-    return (<MainApp mode={props.mode} fetcher={{r, results, handleX, handleY, handleR, handleSubmit, handleClear, handleGraphClick, handleLogout, login}}/>);
+    return (<MainAppModed fetcher={{r, results, handleX, handleY, handleR, handleSubmit, handleClear, handleGraphClick, handleLogout, login}}/>);
 
 }
 

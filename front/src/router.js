@@ -4,7 +4,6 @@ import LoginAppFetcher, {getLogin} from "./login/LoginAppFetcher";
 import MainAppFetcher, {LoadResults} from "./main/MainAppFetcher";
 import React from "react";
 
-
 export default function Routed(props) {
 
     const router = createBrowserRouter([{
@@ -17,7 +16,7 @@ export default function Routed(props) {
         },
             {
                 path: "main",
-                element: <MainAppFetcher mode={props.mode}/>,
+                element: <MainAppFetcher/>,
                 loader: LoadResults
             }]
     }]);

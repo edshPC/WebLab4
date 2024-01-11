@@ -1,5 +1,5 @@
-import Routed from "./router";
 import {useState, useEffect} from 'react';
+import MainApp from "./MainApp";
 
 function getWindowDimensions() {
     const {innerWidth: width, innerHeight: height} = window;
@@ -9,7 +9,7 @@ function getWindowDimensions() {
     };
 }
 
-export default function Scaled() {
+export default function MainAppModed({fetcher}) {
     const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
     useEffect(() => {
@@ -24,5 +24,5 @@ export default function Scaled() {
     const isTablet = windowDimensions.width < 1266;
     const isMobile = windowDimensions.width < 679;
 
-    return <Routed mode={{isMobile, isTablet}}/>;
+    return <MainApp mode={{isMobile, isTablet}} fetcher={fetcher}/>;
 }

@@ -22,6 +22,7 @@ public class AuthResourse {
     @POST
     @Path("/login")
     public Response login(UserBean user, @CookieParam("token") String token) {
+        if(user == null) user = new UserBean();
         user.setToken(token);
 
         var result = authorizationBean.tryLogin(user);
@@ -31,6 +32,7 @@ public class AuthResourse {
     @POST
     @Path("/register")
     public Response register(UserBean user, @CookieParam("token") String token) {
+        if(user == null) user = new UserBean();
         user.setToken(token);
         var result = authorizationBean.tryRegister(user);
 
@@ -44,6 +46,13 @@ public class AuthResourse {
         user.setToken(token);
         var result = authorizationBean.logout(user);
 
+        return makeResponse(result);
+    }
+
+    @GET
+    @Path("/")
+    public Response checkAuth(@CookieParam("token") String token) {
+        var result = authorizationBean.checkAuthorization(token);
         return makeResponse(result);
     }
 

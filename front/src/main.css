@@ -37,10 +37,18 @@ body {
     border-radius: 0.6em;
 }
 
-#main-table tr td {
+#main-table {
     vertical-align: top;
+    display: table;
+    height: fit-content;
+    width: fit-content;
     padding: 0;
     margin: 0;
+}
+
+#main-table .row-like .cell-like {
+    vertical-align: top;
+    display: table-cell;
 }
 
 button:hover, #y-select:focus {
@@ -124,9 +132,9 @@ button:active {
     background-color: #653b3b;
 }
 
-
 .redirect {
     font-size: 16px;
     padding: 2px 7px;
     margin: 5px 0;
 }
+

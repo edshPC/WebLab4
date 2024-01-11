@@ -14,7 +14,7 @@ public class CORSFilter implements ContainerResponseFilter {
     public void filter(final ContainerRequestContext requestContext,
                        final ContainerResponseContext cres) throws IOException {
         String origin = requestContext.getHeaderString("Origin");
-        if(origin == null) origin = "https://se.ifmo.ru";
+        if(origin == null) origin = "http://localhost:24770";
 
         cres.getHeaders().add("Access-Control-Allow-Origin", origin);
         cres.getHeaders().add("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, location-origin");

@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && xcopy /E /H /C /I build ..\\src\\main\\webapp\n",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

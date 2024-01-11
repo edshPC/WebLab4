@@ -84,6 +84,7 @@ public class AuthorizationBean {
             return result.error("You aren't logged in");
 
         result.setLogin(login);
+        result.setToken(token);
         return result.success();
     }
 

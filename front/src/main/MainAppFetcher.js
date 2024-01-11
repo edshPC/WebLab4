@@ -3,7 +3,7 @@ import MainApp from "./MainApp";
 import {Navigate, useLoaderData} from "react-router-dom";
 import {autoFetch} from "../Util";
 
-function MainAppFetcher() {
+function MainAppFetcher(props) {
     let [redirect, redirectTo] = useState();
 
     const loaded = useLoaderData();
@@ -36,7 +36,7 @@ function MainAppFetcher() {
     }
 
     function handleClear() {
-        autoFetch('http://localhost:24770/WebLab4/api/clear')
+        autoFetch('clear')
             .then(res => {
                 if (res.success) setResults([]);
                 else if (!res.login) redirectTo('/');
@@ -44,7 +44,7 @@ function MainAppFetcher() {
     }
 
     function handleLogout() {
-        autoFetch('http://localhost:24770/WebLab4/api/auth/logout', 'POST')
+        autoFetch('auth/logout', 'POST')
             .then(res => {
                 if (!res.login) redirectTo('/');
             });
@@ -55,21 +55,20 @@ function MainAppFetcher() {
         if (y === undefined || Number.isNaN(y)) return alert("Y value is undefined or incorrect");
         if (r === undefined) return alert("R value is undefined");
 
-        let res = await autoFetch('http://localhost:24770/WebLab4/api/check',
+        let res = await autoFetch('check',
             'POST', {x, y, r});
 
         if (res.success) setResults([...results, res.data]);
         else if (!res.login) redirectTo('/');
     }
 
-    if (redirect) return (<Navigate to={`..${redirect}`} relative/>)
-
-    return (<MainApp fetcher={{r, results, handleX, handleY, handleR, handleSubmit, handleClear, handleGraphClick, handleLogout, login}}/>);
+    if (redirect) return (<Navigate to={`..${redirect}`} relative/>);
+    return (<MainApp mode={props.mode} fetcher={{r, results, handleX, handleY, handleR, handleSubmit, handleClear, handleGraphClick, handleLogout, login}}/>);
 
 }
 
 export async function LoadResults() {
-    return await autoFetch('http://localhost:24770/WebLab4/api/results');
+    return await autoFetch('results');
 }
 
 export default MainAppFetcher;
